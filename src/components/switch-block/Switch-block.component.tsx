@@ -1,17 +1,15 @@
-import { Children, Component, type PropsWithChildren, type ReactNode } from "react";
+import { Children, Component, type PropsWithChildren, type PropsWithoutRef, type ReactNode } from "react";
 
-type T = unknown;
-
-interface SwitchProps extends PropsWithChildren {
-	condition: T,
+interface StatementProps extends PropsWithoutRef<PropsWithChildren> {
+	condition: unknown,
 	allowMultiple?: boolean
 }
 
-interface CaseProps extends PropsWithChildren {
-	value: T
+interface CaseProps extends PropsWithoutRef<PropsWithChildren> {
+	value: unknown
 }
 
-class Statement extends Component<SwitchProps> {
+class Statement extends Component<StatementProps> {
 	private children: ReactNode[] = [];
 	private fallback: ReactNode;
 
@@ -45,7 +43,7 @@ class Statement extends Component<SwitchProps> {
 		this.fallback = fallback;
 	}
 
-	public shouldComponentUpdate(nextProps: Readonly<SwitchProps>): boolean {
+	public shouldComponentUpdate(nextProps: Readonly<StatementProps>): boolean {
 		return this.props.allowMultiple !== nextProps.allowMultiple
 		|| this.props.condition !== nextProps.condition
 		|| String(this.props.children) !== String(nextProps.children);
@@ -63,7 +61,7 @@ class Statement extends Component<SwitchProps> {
 }
 
 class Case extends Component<CaseProps> {
-	public accessor: CaseProps['value'];
+	public accessor: typeof this.props.value;
 
 	constructor(props: CaseProps) {
 		super(props);
