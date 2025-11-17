@@ -1,12 +1,12 @@
 import { Children, Component } from 'react';
-import type { PropsWithChildren, ReactNode } from "react";
+import type { PropsWithChildren, ReactNode, PropsWithoutRef } from "react";
 
-interface IfProps { 
+interface IfProps extends PropsWithoutRef<PropsWithChildren> { 
 	condition: boolean;
 	children: ReactNode
 };
 
-interface ElseProps extends PropsWithChildren { children: ReactNode };
+interface ElseProps extends PropsWithoutRef<PropsWithChildren> { children: ReactNode };
 
 class Statement extends Component<IfProps> {
 	private children: ReactNode[] = [];
